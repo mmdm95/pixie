@@ -17,6 +17,10 @@ class Sqlsrv extends BaseAdapter
             $connectionString .= ";Server={$config['host']}";
         }
 
+        if (isset($config['port'])) {
+            $connectionString .= ";port={$config['port']}";
+        }
+
         $connection = $this->container->build(
             '\PDO',
             array($connectionString, $config['username'], $config['password'], $config['options'])
