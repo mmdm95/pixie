@@ -1,6 +1,8 @@
-<?php namespace Pixie\ConnectionAdapters;
+<?php
 
-class Mysql extends BaseAdapter
+namespace Pixie\ConnectionAdapters;
+
+class Sqlsrv extends BaseAdapter
 {
     /**
      * @param $config
@@ -9,10 +11,10 @@ class Mysql extends BaseAdapter
      */
     protected function doConnect($config)
     {
-        $connectionString = "mysql:dbname={$config['database']}";
-        
+        $connectionString = "sqlsrv:Database={$config['database']}";
+
         if (isset($config['host'])) {
-            $connectionString .= ";host={$config['host']}";
+            $connectionString .= ";Server={$config['host']}";
         }
 
         $connection = $this->container->build(

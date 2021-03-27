@@ -7,6 +7,16 @@ use Pixie\QueryBuilder\Raw;
 abstract class BaseAdapter
 {
     /**
+     * @var string
+     */
+    protected $leftSanitizer = '';
+
+    /**
+     * @var string
+     */
+    protected $rightSanitizer = '';
+
+    /**
      * @var \Pixie\Connection
      */
     protected $connection;
@@ -124,6 +134,7 @@ abstract class BaseAdapter
      * @param       $statements
      * @param array $data
      *
+     * @param $type
      * @return array
      * @throws Exception
      */
@@ -297,9 +308,6 @@ abstract class BaseAdapter
         // Wheres
         list($whereCriteria, $whereBindings) = $this->buildCriteriaWithType($statements, 'wheres', 'WHERE');
 
-        // Limit
-        $limit = isset($statements['limit']) ? 'LIMIT ' . $statements['limit'] : '';
-
         $sqlArray = array('DELETE FROM', $this->wrapSanitizer($table), $whereCriteria);
         $sql = $this->concatenateQuery($sqlArray);
         $bindings = $whereBindings;
@@ -459,7 +467,7 @@ abstract class BaseAdapter
 
         foreach ($valueArr as $key => $subValue) {
             // Don't wrap if we have *, which is not a usual field
-            $valueArr[$key] = trim($subValue) == '*' ? $subValue : $this->sanitizer . $subValue . $this->sanitizer;
+            $valueArr[$key] = trim($subValue) == '*' ? $subValue : $this->leftSanitizer . $subValue . $this->rightSanitizer;
         }
 
         // Join these back with "." and return
@@ -498,7 +506,7 @@ abstract class BaseAdapter
      *
      * @param $statements
      *
-     * @return array
+     * @return string
      */
     protected function buildJoin($statements)
     {

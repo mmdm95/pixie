@@ -1,14 +1,14 @@
 <?php namespace Pixie\QueryBuilder\Adapters;
 
-class Sqlite extends BaseAdapter
+class Sqlsrv extends BaseAdapter
 {
     /**
      * @var string
      */
-    protected $leftSanitizer = '"';
+    protected $leftSanitizer = '[';
 
     /**
      * @var string
      */
-    protected $rightSanitizer = '"';
+    protected $rightSanitizer = ']';
 }

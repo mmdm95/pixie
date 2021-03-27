@@ -5,5 +5,10 @@ class Mysql extends BaseAdapter
     /**
      * @var string
      */
-    protected $sanitizer = '`';
+    protected $leftSanitizer = '`';
+
+    /**
+     * @var string
+     */
+    protected $rightSanitizer = '`';
 }
